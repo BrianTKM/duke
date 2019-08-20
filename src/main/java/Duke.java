@@ -15,6 +15,7 @@ public class Duke {
         System.out.println("Hello! I'm Duke\nWhat can I do for you?\n");
     }
     public void execution() {
+        List TaskList = new List();
         String indentation = "| ";
         Scanner input = new Scanner(System.in);
         while(true) {
@@ -23,8 +24,13 @@ public class Duke {
                 System.out.println(indentation + "Bye. Hope to see you again soon!");
                 System.out.println("|___");
                 break;
-            } else {
-                System.out.println(indentation + command);
+            }
+            else if(command.equals("list")){
+                TaskList.ViewTasks();
+            }
+            else {
+                TaskList.AddTask(command);
+                System.out.println(indentation + "added: " + command);
             }
             System.out.println("|___\n");
         }
