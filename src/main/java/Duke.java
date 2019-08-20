@@ -15,11 +15,10 @@ public class Duke {
         System.out.println("Hello! I'm Duke\nWhat can I do for you?\n");
     }
     public void execution() {
-        String indentation = "|  ";
+        String indentation = "| ";
         Scanner input = new Scanner(System.in);
         while(true) {
             String command = input.nextLine();
-            System.out.println(" ___");
             if (command.equals("bye")) {
                 System.out.println(indentation + "Bye. Hope to see you again soon!");
                 System.out.println("|___");
@@ -27,7 +26,7 @@ public class Duke {
             } else {
                 System.out.println(indentation + command);
             }
-            System.out.println("|___");
+            System.out.println("|___\n");
         }
     }
 }
