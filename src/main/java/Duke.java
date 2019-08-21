@@ -10,10 +10,10 @@ public class Duke {
         }
     }
     public Duke() {
-        greet();    //startup
-        execution();    //start performing tasks
+        greetUser();    //startup
+        executeDuke();    //start performing tasks
     }
-    public void greet() {
+    public void greetUser() {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -22,39 +22,39 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke\nWhat can I do for you?\n");
     }
-    public void execution() {
-        List TaskList = new List();
+    public void executeDuke() {
+        List taskList = new List();
         String indentation = "| ";
         Scanner input = new Scanner(System.in);
         while(true) {
             String command = input.nextLine();  //get next user input
-            String[] SplitCommand = command.split(" "); //split user input by space
+            String[] splitCommand = command.split(" "); //split user input by space
             if(command.isEmpty() || command.isBlank())          //if user input is empty
                 System.out.println(indentation + "Please enter a command"); //tell user enter a command
-            else if (SplitCommand[0].equals("bye") && SplitCommand.length == 1) { //if user only sees "bye" despite having space behind
+            else if (splitCommand[0].equals("bye") && splitCommand.length == 1) { //if user only sees "bye" despite having space behind
                 System.out.println(indentation + "Bye. Hope to see you again soon!");   //display goodbye message
                 System.out.println("|___");
                 break;  //end loop to exit duke
             }
-            else if(SplitCommand[0].equals("list") && SplitCommand.length == 1){    //if user wants to list
-                TaskList.ViewTasks();
+            else if(splitCommand[0].equals("list") && splitCommand.length == 1){    //if user wants to list
+                taskList.viewTasks();
             }
-            else if(SplitCommand[0].equals("done")){    //when user want to finish task
-                int TaskNumlocator = 1;
-                if(SplitCommand.length > 2){        //if done 1 2 3 is entered
-                    while(TaskNumlocator < SplitCommand.length && (SplitCommand[TaskNumlocator].isBlank() || SplitCommand[TaskNumlocator].isEmpty())){
-                        TaskNumlocator++;
+            else if(splitCommand[0].equals("done")){    //when user want to finish task
+                int taskNumlocator = 1;
+                if(splitCommand.length > 2){        //if done 1 2 3 is entered
+                    while(taskNumlocator < splitCommand.length && (splitCommand[taskNumlocator].isBlank() || splitCommand[taskNumlocator].isEmpty())){
+                        taskNumlocator++;
                     }
-                    System.out.println(indentation + "Only the first input after \"done\" (Task number: " + SplitCommand[TaskNumlocator] + ") will be performed");
+                    System.out.println(indentation + "Only the first input after \"done\" (Task number: " + splitCommand[taskNumlocator] + ") will be performed");
                 }
-                else if(SplitCommand.length == 1){ //if only "done" is entered
+                else if(splitCommand.length == 1){ //if only "done" is entered
                     System.out.println(indentation + "Please specify a task number");
                     System.out.println("|___\n");
                     continue;
                 }
-                if(tryParseInt(SplitCommand[TaskNumlocator])) {  //ensure is valid task
-                    int TaskNum = Integer.parseInt(SplitCommand[TaskNumlocator]);
-                    TaskList.FinishTask(TaskNum);
+                if(tryParseInt(splitCommand[taskNumlocator])) {  //ensure is valid task
+                    int TaskNum = Integer.parseInt(splitCommand[taskNumlocator]);
+                    taskList.finishTask(TaskNum);
                 }
                 else
                 {
@@ -62,7 +62,7 @@ public class Duke {
                 }
             }
             else {  //add task to task list
-                TaskList.AddTask(command);
+                taskList.AddTask(command);
                 System.out.println(indentation + "added: " + command);
             }
             System.out.println("|___\n");
