@@ -1,18 +1,18 @@
 public class Task {
     protected String taskDetail;
-    protected boolean taskStatus;
+    protected boolean isDone;
 
     public Task(String TaskDetail){
         this.taskDetail = TaskDetail;
-        this.taskStatus = false;
+        this.isDone = false;
     }
     public String getTask(){
         return this.taskDetail;
     }
     public String getStatusIcon() {
-        return (taskStatus ? "\u2713" : "\u2718"); //return tick or X symbols
+        return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
     }
-    public void MarkAsDone(){
-        this.taskStatus = true;
+    public void markAsDone(){
+        this.isDone = true;
     }
 }

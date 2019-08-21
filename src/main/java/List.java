@@ -25,7 +25,7 @@ public class List {
                 System.out.println(indentation + "The task has already been completed");
             }
             else{
-                (taskList.get(taskNumber)).MarkAsDone();
+                (taskList.get(taskNumber)).markAsDone();
                 System.out.println(indentation + "Nice! I've marked this task as done: ");
                 System.out.println(indentation + "[" + (taskList.get(taskNumber)).getStatusIcon() + "] " + (taskList.get(taskNumber)).getTask());
             }
