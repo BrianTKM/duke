@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Duke {
+    List taskList = new List();
     private boolean tryParseInt(String value){
         //used to check if task number entered by user is an int
         try{
@@ -16,6 +17,8 @@ public class Duke {
 
         executeDuke();
         //start performing tasks
+
+
     }
     public void greetUser() {
         String logo = " ____        _        \n"
@@ -27,7 +30,7 @@ public class Duke {
         System.out.println("Hello! I'm Duke\nWhat can I do for you?\n");
     }
     public void executeDuke() {
-        List taskList = new List();
+
         String indentation = "| ";
         Scanner input = new Scanner(System.in);
         while(true) {
@@ -81,7 +84,7 @@ public class Duke {
             } else {
                 //add task to task list
                 taskList.AddTask(command);
-                System.out.println(indentation + "added: " + command);
+
             }
             System.out.println("|___\n");
         }
