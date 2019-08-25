@@ -1,7 +1,7 @@
 public class Task {
     static int totalTasks = 0;
-    protected String taskDetail;
-    protected boolean isDone;
+    private String taskDetail;
+    private boolean isDone;
 
     public Task(String taskDetail){
         this.taskDetail = taskDetail;

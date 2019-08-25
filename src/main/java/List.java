@@ -3,11 +3,7 @@ import java.util.ArrayList;
 public class List {
     private ArrayList<Task> taskList = new ArrayList<Task>();
 
-    protected String indentation = "| ";
-
-    public void AddTask(String newTask){/*
-        Task newAddedTask = new Task(newTask);
-        taskList.add(newAddedTask);*/
+    public void addTask(String newTask){
         String[] addTaskDetails = newTask.split(" ");
         if(addTaskDetails[0].equals("deadline")){
             String taskDescription = newTask.substring(9);
@@ -27,39 +23,44 @@ public class List {
         } else{
             return;
         }
-        System.out.println(indentation + "Got it. I've added this task: " + taskList.get(taskList.size() - 1).getDetails());
+        System.out.println("Got it. I've added this task:\n"
+                + taskList.get(taskList.size() - 1).getDetails());
         if(Task.totalTasks == 1){
-            System.out.println(indentation + "Now you have " + Task.totalTasks + " task in the list.");
+            System.out.println("Now you have " + Task.totalTasks + " task in the list.");
         } else {
-            System.out.println(indentation + "Now you have " + Task.totalTasks + " tasks in the list.");
+            System.out.println("Now you have " + Task.totalTasks + " tasks in the list.");
         }
     }
     public void viewTasks(){
         if(taskList.size() < 1){
             //if task list empty
-            System.out.println(indentation + "No task has been added yet");
+            System.out.println("No task has been added yet");
             return;
         }
         for(int i = 0; i < taskList.size();i++)
         {
-            System.out.println(indentation + (i + 1) + ". " + (taskList.get(i)).getDetails());
+            System.out.println((i + 1) + ". " + (taskList.get(i)).getDetails());
         }
     }
     public void finishTask(int taskNumber){
         taskNumber--;
+        if(Task.totalTasks == 0){
+            System.out.println("There are no tasks in the list");
+            return;
+        }
         if(taskNumber >= 0 && taskNumber < taskList.size()){
             if(((taskList.get(taskNumber)).getStatusIcon()).equals("Y")){
-                System.out.println(indentation + "The task has already been completed");
+                System.out.println("The task has already been completed");
             }
             else{
                 (taskList.get(taskNumber)).markAsDone();
-                System.out.println(indentation + "Nice! I've marked this task as done: ");
-                System.out.println(indentation + (taskList.get(taskNumber)).getDetails());
+                System.out.println("Nice! I've marked this task as done: ");
+                System.out.println((taskList.get(taskNumber)).getDetails());
             }
         }
         else
         {
-            System.out.println(indentation + "Invalid task number");
+            System.out.println("Invalid task number");
         }
     }
 }
