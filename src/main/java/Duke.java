@@ -4,6 +4,7 @@ public class Duke {
 
     public Duke() {
         greetUser();
+        taskList.initializeList();
         //startup
     }
     public void greetUser() {
@@ -70,6 +71,7 @@ public class Duke {
         if(commandAction.length != 1) {
             throw new DukeExceptions("The \"bye\" command cannot be used with other arguments.");
         }
+        taskList.saveList();
         System.out.println("Bye. Hope to see you again soon!");
     }
 }

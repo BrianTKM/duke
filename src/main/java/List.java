@@ -1,9 +1,14 @@
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class List {
     private ArrayList<Task> taskList = new ArrayList<Task>();
-    private ArrayList<Task> oldTaskList = new ArrayList<Task>();
-    private static final String FILE_PATH = "data";
+    private static final String FILE_PATH = "data.txt";
 
     private int parseTaskNumber(String command) throws DukeExceptions{
         command = command.substring(4);
@@ -13,10 +18,10 @@ public class List {
         }
         try{
             int correctTaskNumber = Integer.parseInt(command);
-            if(Task.totalTasks == 0){
+            if(taskList.size() == 0){
                 throw new DukeExceptions("There are 0 tasks in the list.");
             }
-            else if((correctTaskNumber <= Task.totalTasks) && (correctTaskNumber > 0)){
+            else if((correctTaskNumber <= taskList.size()) && (correctTaskNumber > 0)){
                 correctTaskNumber--;
                 if(taskList.get(correctTaskNumber).getStatusIcon().equals("Y")){
                     throw new DukeExceptions("Task has already been completed.");
@@ -33,10 +38,10 @@ public class List {
     private void successfulAddTask(){
         System.out.println("Got it. I've added this task:\n"
                 + taskList.get(taskList.size() - 1).getDetails());
-        if(Task.totalTasks == 1){
-            System.out.println("Now you have " + Task.totalTasks + " task in the list.");
+        if(taskList.size() == 1){
+            System.out.println("Now you have " + taskList.size() + " task in the list.");
         } else {
-            System.out.println("Now you have " + Task.totalTasks + " tasks in the list.");
+            System.out.println("Now you have " + taskList.size() + " tasks in the list.");
         }
     }
 
@@ -145,10 +150,40 @@ public class List {
             int taskNumber = parseTaskNumber(command);
             taskList.get(taskNumber).markAsDone();
             System.out.println("Nice! I've marked this task as done: ");
-            System.out.println((taskList.get(taskNumber)).getDetails());
         }
         catch (DukeExceptions errorMessage){
             System.out.println(errorMessage.toString());
+        }
+    }
+
+    public void saveList(){
+        try {
+            File dataFile = new File(FILE_PATH);
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(taskList);
+            oos.close();
+            fos.close();
+        } catch (IOException ioe){
+            System.out.println("\u2639 OOPS!!! We are unable to save your task list :-(");
+        }
+    }
+
+    public void initializeList(){
+        File dataFile = new File(FILE_PATH);
+        if(dataFile.exists()) {
+            try {
+                FileInputStream fis = new FileInputStream(FILE_PATH);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                taskList = (ArrayList<Task>) ois.readObject();
+                ois.close();
+                fis.close();
+                Task.totalTasks = taskList.size();
+            } catch (IOException ioe) {
+                System.out.println("\u2639 OOPS!!! We are unable to load your task list :-(");
+            } catch (ClassNotFoundException c) {
+                //ignore
+            }
         }
     }
 }
