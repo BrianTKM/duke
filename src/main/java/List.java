@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class List {
     private ArrayList<Task> taskList = new ArrayList<Task>();
@@ -66,13 +70,30 @@ public class List {
                     && details.split("/by ")[0].length() < 1){
                 throw new DukeExceptions("The task must have a description.");
             }
-            throw new DukeExceptions("The task must have a deadline." +
-                    " Command format:\nevent <task description> /by <deadline>");
+            throw new DukeExceptions("The task must have a deadline."
+                    + " Command format:\nevent <task description> /by <deadline>");
         }
         String[] deadlineDetails = details.split(" /by ");
+        String[] eventTime = deadlineDetails[deadlineDetails.length-1].split(" ");
+        if(eventTime.length < 2){
+            throw new DukeExceptions("Incorrect date/time format."
+                    + " Format should be dd/MM/yyyy HHmm (24h format).");
+        }
+        String dateAndTime = eventTime[0] + " "
+                + deadlineDetails[deadlineDetails.length-1].substring(eventTime[0].length()).trim();
+        DateFormat temp = new SimpleDateFormat("dd/MM/yyyy HHmm");
+        Date dateTime;
+        temp.setLenient(false);
+        try{
+            dateTime = temp.parse(dateAndTime);
+            if(dateTime.compareTo(new Date()) <= 0){
+                throw new DukeExceptions("Deadline entered is before now.");
+            }
+        } catch (ParseException e){
+            throw new DukeExceptions("Incorrect time format. Please enter a valid dd/MM/yyyy HHmm(24h) format.");
+        }
         Task newDeadline = new Deadline(
-                details.substring(0,details.length()-deadlineDetails[deadlineDetails.length-1].length()-5)
-                ,deadlineDetails[deadlineDetails.length-1]);
+                details.substring(0,details.length()-deadlineDetails[deadlineDetails.length-1].length()-5),dateTime);
         taskList.add(newDeadline);
         successfulAddTask();
     }
@@ -84,52 +105,52 @@ public class List {
         if(details.length() < 3 || details.substring(details.length()-4).equals(" /at")){
             throw new DukeExceptions("The event must have a date and time.");
         }
-        if(!details.contains(" /at ")){
-            if(details.contains("/at ") && details.split("/at ").length == 2
-                    && details.split("/at ")[0].length() < 1){
+        if(!details.contains(" /at ")) {
+            if (details.contains("/at ") && details.split("/at ").length == 2
+                    && details.split("/at ")[0].length() < 1) {
                 throw new DukeExceptions("The event must have a description.");
             }
-            throw new DukeExceptions("The event must have a date and time." +
-                    " Command format:\nevent <event description> /at <date and time>");
+            throw new DukeExceptions("The event must have a date and time."
+                    + " Command format:\nevent <event description> /at <date and time>");
         }
         String[] eventDetails = details.split(" /at ");
+        String[] eventDates = eventDetails[eventDetails.length-1].split("-");
+        if(eventDates.length != 2){
+            throw new DukeExceptions("Incorrect event period."
+                    + " Event period format is dd/mm/yyyy HHmm - dd/mm/yyyy HHmm");
+        }
+        String[] eventStartTime = eventDates[0].split(" ");
+        String[] eventEndTime = eventDates[1].split(" ");
+        if(eventStartTime.length < 2 || eventEndTime.length < 2){
+            throw new DukeExceptions("Incorrect date/time format."
+                    + " Format should be dd/MM/yyyy HHmm (24h format).");
+        }
+        String startDateAndTime = eventStartTime[0] + " "
+                + eventDates[0].substring(eventStartTime[0].length()).trim();
+        String endDateAndTime = eventEndTime[0] + " "
+                + eventDates[1].substring(eventEndTime[0].length()).trim();
+        DateFormat temp = new SimpleDateFormat("dd/MM/yyyy HHmm");
+        Date startDateTime;
+        Date endDateTime;
+        temp.setLenient(false);
+        try{
+            startDateTime = temp.parse(startDateAndTime);
+            endDateTime = temp.parse(endDateAndTime);
+            if(startDateTime.compareTo(new Date()) <= 0){
+                throw new DukeExceptions("Event entered is before now.");
+            }
+            if(endDateTime.compareTo(startDateTime) <= 0){
+                throw new DukeExceptions("Event end date is before start date");
+            }
+        } catch (ParseException e){
+            throw new DukeExceptions("Incorrect time format."
+                    + " Please enter a valid dd/MM/yyyy HHmm(24h) format.");
+        }
         Task newEvent = new Event(
-                details.substring(0,details.length()-eventDetails[eventDetails.length-1].length()-5)
-                ,eventDetails[eventDetails.length-1]);
+                details.substring(0,details.length()-eventDetails[eventDetails.length-1].length()-5),startDateTime
+                ,endDateTime);
         taskList.add(newEvent);
         successfulAddTask();
-    }
-
-    public void addTask(String newTask){
-        String[] addTaskDetails = newTask.split(" ");
-        String taskDescription;
-        String[] splitTaskDescription;
-        switch(addTaskDetails[0]) {
-        case "deadline":
-            taskDescription = newTask.substring(9);
-            splitTaskDescription = taskDescription.split(" /by ");
-            Task newDeadline = new Deadline(splitTaskDescription[0], splitTaskDescription[1]);
-            taskList.add(newDeadline);
-            break;
-        case "event":
-            taskDescription = newTask.substring(6);
-            splitTaskDescription = taskDescription.split(" /at ");
-            Task newEvent = new Event(splitTaskDescription[0], splitTaskDescription[1]);
-            taskList.add(newEvent);
-            break;
-        case "todo":
-            taskDescription = newTask.substring(5);
-            taskDescription = taskDescription.trim();
-            if(taskDescription.length() > 0) {
-                Task newToDo = new ToDo(taskDescription);
-                taskList.add(newToDo);
-            } else {
-                System.out.println("\u2639 OOPS!!! The description of a todo cannot be empty.");
-            }
-            break;
-        default:
-            return;
-        }
     }
 
     public void viewTasks(String[] commandAction) throws DukeExceptions{
@@ -158,7 +179,6 @@ public class List {
 
     public void saveList(){
         try {
-            File dataFile = new File(FILE_PATH);
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(taskList);

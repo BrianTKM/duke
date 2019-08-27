@@ -1,13 +1,18 @@
-public class Deadline extends Task{
-    private String dueDate;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    public Deadline(String taskDetail, String dueDate){
+public class Deadline extends Task{
+    private Date dueDate;
+
+    public Deadline(String taskDetail, Date dueDate){
         super(taskDetail);
         this.dueDate = dueDate;
     }
 
     @Override
     public String getDetails(){
-        return "[D]" + super.getDetails() + " (by: " + this.dueDate + ")";
+        DateFormat printDateTime = new SimpleDateFormat("dd MMMM yyyy HH:mma");
+        return "[D]" + super.getDetails() + " (by: " + printDateTime.format(this.dueDate) + ")";
     }
 }

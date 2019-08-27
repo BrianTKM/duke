@@ -69,6 +69,7 @@ public class Duke {
 
     public void bye(String[] commandAction) throws DukeExceptions{
         if(commandAction.length != 1) {
+            System.out.println(commandAction.length);
             throw new DukeExceptions("The \"bye\" command cannot be used with other arguments.");
         }
         taskList.saveList();
