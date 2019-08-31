@@ -46,6 +46,8 @@ public class Duke {
                 break;
             case "delete":
                 taskList.deleteTask(command);
+            case "find":
+                taskList.findTask(command);
                 break;
             case "list":
                 try {
