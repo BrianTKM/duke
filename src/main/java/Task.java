@@ -10,9 +10,6 @@ public class Task implements Serializable {
         this.isDone = false;
         totalTasks += 1;
     }
-    public String getTask(){
-        return this.taskDetail;
-    }
     public String getStatusIcon() {
         return (isDone ? "Y" : "N");
         //return Yes or No
