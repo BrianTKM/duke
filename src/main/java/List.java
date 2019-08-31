@@ -206,4 +206,37 @@ public class List {
             }
         }
     }
+
+    private void searchForTask(String keyword) throws DukeExceptions{
+        if(keyword.length() == 0){
+            throw new DukeExceptions("Keyword cannot be empty.");
+        }
+        if(Task.totalTasks == 0){
+            throw new DukeExceptions("There are 0 tasks in the list.");
+        }
+        int counter = 0;
+        for(int i = 0; i < Task.totalTasks; i++)
+        {
+            if(taskList.get(i).getTaskDetail().contains(keyword)){
+                if(counter == 0){
+                    System.out.println("Here are the matching tasks in your list:");
+                }
+                System.out.println(counter+1 + ". " + taskList.get(i).getDetails());
+                counter++;
+            }
+        }
+        if(counter == 0){
+            throw new DukeExceptions("There are no tasks that match your keyword.");
+        }
+    }
+
+    public void findTask(String command){
+        command = command.substring(4);
+        command = command.trim();
+        try {
+            searchForTask(command);
+        } catch (DukeExceptions errorMessage){
+            System.out.println(errorMessage.toString());
+        }
+    }
 }

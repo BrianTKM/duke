@@ -14,6 +14,9 @@ public class Task implements Serializable {
         return (isDone ? "Y" : "N");
         //return Yes or No
     }
+    public String getTaskDetail(){
+        return this.taskDetail;
+    }
     public String getDetails(){
         return ("[" + this.getStatusIcon() + "] " + this.taskDetail);
     }
