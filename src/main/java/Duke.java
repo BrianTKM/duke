@@ -44,6 +44,9 @@ public class Duke {
             case "done":
                 taskList.finishTask(command);
                 break;
+            case "delete":
+                taskList.deleteTask(command);
+                break;
             case "list":
                 try {
                     taskList.viewTasks(commandAction);

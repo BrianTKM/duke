@@ -15,7 +15,14 @@ public class List {
     private static final String FILE_PATH = "data.txt";
 
     private int parseTaskNumber(String command) throws DukeExceptions{
-        command = command.substring(4);
+        String[] executeCommand = command.split(" ");
+        if(executeCommand[0].equals("done")){
+            command = command.substring(4);
+        } else if(executeCommand[0].equals("delete")) {
+            command = command.substring(6);
+        } else{
+            throw new DukeExceptions("\u2639 OOPS!!! I'm sorry, but I don't know what that means :-(");
+        }
         command = command.trim();
         if(command.length() < 1){
             throw new DukeExceptions("The task number cannot be blank");
@@ -27,10 +34,12 @@ public class List {
             }
             else if((correctTaskNumber <= taskList.size()) && (correctTaskNumber > 0)){
                 correctTaskNumber--;
-                if(taskList.get(correctTaskNumber).getStatusIcon().equals("Y")){
-                    throw new DukeExceptions("Task has already been completed.");
+                if(executeCommand[0].equals("done")) {
+                    if (taskList.get(correctTaskNumber).getStatusIcon().equals("Y")) {
+                        throw new DukeExceptions("Task has already been completed.");
+                    }
                 }
-                return correctTaskNumber;
+                    return correctTaskNumber;
             } else{
                 throw new DukeExceptions("Incorrect task number. Please enter one task number from within the list.");
             }
@@ -171,8 +180,29 @@ public class List {
             int taskNumber = parseTaskNumber(command);
             taskList.get(taskNumber).markAsDone();
             System.out.println("Nice! I've marked this task as done: ");
+            System.out.println(taskList.get(taskNumber).getDetails());
         }
         catch (DukeExceptions errorMessage){
+            System.out.println(errorMessage.toString());
+        }
+    }
+
+    public void deleteTask(String command){
+        try{
+            int taskNumber = parseTaskNumber(command);
+            Task temp = taskList.get(taskNumber);
+            taskList.remove(taskNumber);
+            System.out.println("Noted. I've removed this task: ");
+            System.out.println(temp.getDetails());
+            temp = null;
+            Task.totalTasks--;
+            if(Task.totalTasks != 1) {
+                System.out.println("Now you have " + Task.totalTasks + " tasks in the list.");
+            }
+            else {
+                System.out.println("Now you have " + Task.totalTasks + " task in the list.");
+            }
+        } catch (DukeExceptions errorMessage){
             System.out.println(errorMessage.toString());
         }
     }
