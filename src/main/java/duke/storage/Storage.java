@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 
 public class Storage {
     private static final String FILE_PATH = "data.txt";
@@ -22,8 +21,8 @@ public class Storage {
             try {
                 FileInputStream fis = new FileInputStream(FILE_PATH);
                 ObjectInputStream ois = new ObjectInputStream(fis);
-                taskList.setTaskList((ArrayList<Task>) ois.readObject());
-                taskList.refreshTotalTask();
+                taskList = ((TaskList) ois.readObject());
+                //taskList.refreshTotalTask();
                 ois.close();
                 fis.close();
                 return taskList;
@@ -41,7 +40,7 @@ public class Storage {
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(taskList.getTaskList());
+            oos.writeObject(taskList);
             oos.close();
             fos.close();
         } catch (IOException ioe){

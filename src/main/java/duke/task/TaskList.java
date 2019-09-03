@@ -3,43 +3,31 @@ package duke.task;
 import duke.exception.DukeException;
 import duke.ui.Ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TaskList {
+public class TaskList implements Serializable {
     private ArrayList<Task> taskList = new ArrayList<Task>();
-
-    public void refreshTotalTask(){
-        Task.totalTask = taskList.size();
-    }
-
-    public ArrayList<Task> getTaskList(){
-        return taskList;
-    }
-
-    public void setTaskList(ArrayList<Task> loadedList){
-        this.taskList = loadedList;
-    }
 
     public void addTask(Task newTask){
         taskList.add(newTask);
-        Task.totalTask++;
     }
 
     public void viewTask(Ui ui){
-        if(Task.totalTask == 0){
+        if(taskList.size() == 0){
             ui.printMessage("There are 0 tasks in the task list.");
         }
-        for(int i = 0; i < Task.totalTask; i++){
+        for(int i = 0; i < taskList.size(); i++){
             ui.printMessage(i+1 + ". " + taskList.get(i).getTaskDetails());
         }
     }
 
     public void finishTask(Ui ui, int taskNumber) throws DukeException {
-        if(Task.totalTask == 0){
+        if(taskList.size() == 0){
             ui.printMessage("There are 0 tasks in the list.");
             return;
         }
-        if(taskNumber > Task.totalTask || taskNumber <= 0){
+        if(taskNumber > taskList.size() || taskNumber <= 0){
             throw new DukeException("Task number entered is out of range.");
         }
         taskNumber--;
@@ -53,12 +41,12 @@ public class TaskList {
 
     public void findTask(Ui ui, String keyword){
         int counter = 0;
-        if(Task.totalTask == 0){
+        if(taskList.size() == 0){
             ui.printMessage("There are 0 tasks in the task list.");
             return;
         }
         ui.printMessage("Finding all tasks with \"" + keyword + "\" in task description:");
-        for(int i = 0; i < Task.totalTask; i++){
+        for(int i = 0; i < taskList.size(); i++){
             if(taskList.get(i).getTaskDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 if (counter == 0) {
                     ui.printMessage("Here are the matching tasks in your list:");
@@ -73,10 +61,10 @@ public class TaskList {
     }
 
     public void deleteTask(Ui ui, int taskNumber) throws DukeException{
-        if(Task.totalTask == 0){
+        if(taskList.size() == 0){
             ui.printMessage("There are 0 tasks in the list.");
         }
-        if(taskNumber > Task.totalTask || taskNumber <= 0){
+        if(taskNumber > taskList.size() || taskNumber <= 0){
             throw new DukeException("Task number entered is out of range.");
         }
         taskNumber--;
@@ -85,11 +73,10 @@ public class TaskList {
         ui.printMessage("Noted. I've removed this task: ");
         ui.printMessage(temp.getTaskDetails());
         temp = null;
-        Task.totalTask--;
-        if(Task.totalTask == 1){
-            ui.printMessage("Now you have " + Task.totalTask + " task in the list.");
+        if(taskList.size() == 1){
+            ui.printMessage("Now you have " + taskList.size() + " task in the list.");
         } else {
-            ui.printMessage("Now you have " + Task.totalTask + " tasks in the list.");
+            ui.printMessage("Now you have " + taskList.size() + " tasks in the list.");
         }
     }
 }
