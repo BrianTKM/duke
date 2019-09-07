@@ -11,9 +11,18 @@ import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
+/**
+ * Class that handles the saving and loading of the task list on the system.
+ */
 public class Storage {
     private static final String FILE_PATH = "data.txt";
 
+    /**
+     * Loads a task list from the system.
+     *
+     * @param ui The user interface of duke.
+     * @return The the loaded task list, if any, from the system.
+     */
     public TaskList load(Ui ui){
         File dataFile = new File(FILE_PATH);
         TaskList taskList = new TaskList();
@@ -36,6 +45,12 @@ public class Storage {
         return taskList;
     }
 
+    /**
+     * Saves the current task list onto the system.
+     *
+     * @param taskList The task list, containing all the tasks, to be saved on the system.
+     * @param ui The user interface of duke.
+     */
     public void save(TaskList taskList, Ui ui){
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);

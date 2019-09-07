@@ -6,13 +6,26 @@ import duke.ui.Ui;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class representing the task list in duke.
+ */
 public class TaskList implements Serializable {
     private ArrayList<Task> taskList = new ArrayList<Task>();
 
+    /**
+     * Adds a new task into the task list.
+     *
+     * @param newTask New task to be added into the task list.
+     */
     public void addTask(Task newTask){
         taskList.add(newTask);
     }
 
+    /**
+     * Displays a list of all the tasks in the task list.
+     *
+     * @param ui The user interface of duke.
+     */
     public void viewTask(Ui ui){
         if(taskList.size() == 0){
             ui.printMessage("There are 0 tasks in the task list.");
@@ -22,6 +35,13 @@ public class TaskList implements Serializable {
         }
     }
 
+    /**
+     * Marks the selected task as done.
+     *
+     * @param ui The user interface of duke.
+     * @param taskNumber The selected task number in the task list.
+     * @throws DukeException If task number is out of range or if task is already completed.
+     */
     public void finishTask(Ui ui, int taskNumber) throws DukeException {
         if(taskList.size() == 0){
             ui.printMessage("There are 0 tasks in the list.");
@@ -39,6 +59,12 @@ public class TaskList implements Serializable {
         ui.printMessage(taskList.get(taskNumber).getTaskDetails());
     }
 
+    /**
+     * Finds all tasks contining the selected keyword.
+     *
+     * @param ui The user interface of duke.
+     * @param keyword The keyword to be used for searching.
+     */
     public void findTask(Ui ui, String keyword){
         int counter = 0;
         if(taskList.size() == 0){
@@ -60,6 +86,13 @@ public class TaskList implements Serializable {
         }
     }
 
+    /**
+     * Deletes the selected task from the task list.
+     *
+     * @param ui The user interface of duke.
+     * @param taskNumber The task number in the task list.
+     * @throws DukeException If the task number is out of range.
+     */
     public void deleteTask(Ui ui, int taskNumber) throws DukeException{
         if(taskList.size() == 0){
             ui.printMessage("There are 0 tasks in the list.");

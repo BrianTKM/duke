@@ -18,7 +18,33 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class to process and check the user input.
+ */
 public class Parser {
+    /**
+     * Processes the user input to get the intended command actions.
+     *
+     * @param fullInput The user input.
+     * @return The intended command.
+     * @throws DukeException If the command is empty or if the input is not an expected command.
+     * Exceptions for the following commands:
+     * list: If there are additional arguments.
+     *
+     * bye: If there are additional arguments.
+     *
+     * done: If the task number is empty or invalid.
+     *
+     * todo: If the task description is not provided.
+     *
+     * deadline: If the task description is not provided, deadline is of incorrect format or if date has already passed.
+     * event: If task description is not provided, incorrect format of dates, start date already passed
+     * or end date is earlier than start date.
+     *
+     * delete: If the task number is empty or invalid.
+     *
+     * find: If the keyword is not provided.
+     */
     public Command getCommand(String fullInput) throws DukeException {
         if(fullInput.isEmpty() || fullInput.isBlank()){
             throw new DukeException("Command cannot be empty");
