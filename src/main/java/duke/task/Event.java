@@ -30,7 +30,7 @@ public class Event extends Task {
      * @return Event description, start date-time and end date-time.
      */
     public String getTaskDetails(){
-        DateFormat printDateTime = new SimpleDateFormat("dd MMMM yyyy HH:mma");
+        DateFormat printDateTime = new SimpleDateFormat("dd MMMM yyyy hh:mma");
         return ("[E][" + this.getStatusIcon() + "] " + this.taskDescription
                 + " (at: " + printDateTime.format(this.startDate) + " - " + printDateTime.format(this.endDate) + ")");
     }

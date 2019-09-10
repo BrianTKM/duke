@@ -20,7 +20,7 @@ test {
 
 application {
     // Change this to your main class.
-    mainClassName = "main"
+    mainClassName = "duke.main"
 }
 run{
     standardInput = System.in

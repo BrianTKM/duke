@@ -77,7 +77,7 @@ public class TaskList implements Serializable {
                 if (counter == 0) {
                     ui.printMessage("Here are the matching tasks in your list:");
                 }
-                ui.printMessage((counter+1) + taskList.get(i).getTaskDetails());
+                ui.printMessage((counter+1) + ". " + taskList.get(i).getTaskDetails());
                 counter++;
             }
         }

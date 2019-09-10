@@ -15,7 +15,7 @@ public abstract class Task implements Serializable {
      * @return Tick if task is done; Cross if it is not done.
      */
     String getStatusIcon(){
-        return (isDone ? "\u2713" : "\u2718");
+        return (isDone ? "Y" : "N");
     }
 
     /**

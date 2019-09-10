@@ -93,7 +93,8 @@ public class Parser {
                 throw new DukeException("The description and deadline of a task cannot be empty.");
             }
             if(fullInput.length() < 4 || fullInput.substring(fullInput.length()-4).equals(" /by")){
-                throw new DukeException("The task must have a deadline.");
+                throw new DukeException("The task must have a deadline."
+                        + " Command format:\n deadline <task description> /by <deadline>");
             }
             if(!fullInput.contains(" /by ")){
                 if(fullInput.contains("/by ") && fullInput.split("/by ").length == 2
@@ -101,16 +102,16 @@ public class Parser {
                     throw new DukeException("The task must have a description.");
                 }
                 throw new DukeException("The task must have a deadline,"
-                        + " Command format:\n event <task description> /by <deadline>");
+                        + " Command format:\n deadline <task description> /by <deadline>");
             }
             String[] deadlineDetails = fullInput.split(" /by ");
-            String[] eventTime = deadlineDetails[deadlineDetails.length-1].split(" ");
-            if(eventTime.length < 2){
+            String[] deadlineTime = deadlineDetails[deadlineDetails.length-1].split(" ");
+            if(deadlineTime.length != 2){
                 throw new DukeException("Incorrect date/time format."
                         + " Format should be \"dd/MM/yyyy HHmm\" in 24h format.");
             }
-            String dateAndTime = eventTime[0] + " "
-                    + deadlineDetails[deadlineDetails.length-1].substring(eventTime[0].length()).trim();
+            String dateAndTime = deadlineTime[0] + " "
+                    + deadlineDetails[deadlineDetails.length-1].substring(deadlineTime[0].length()).trim();
             DateFormat temp = new SimpleDateFormat("dd/MM/yyyy HHmm");
             Date dateTime;
             temp.setLenient(false);
@@ -146,7 +147,7 @@ public class Parser {
             String[] eventDetails = fullInput.split(" /at ");
             String[] eventDates = eventDetails[eventDetails.length-1].split("-");
             if(eventDates.length != 2){
-                throw new DukeException("Incorrect event period."
+                throw new DukeException("Incorrect event date format."
                         + " Event period format is dd/mm/yyyy HHmm - dd/mm/yyyy HHmm");
             }
             String[] eventStartTime = eventDates[0].split(" ");

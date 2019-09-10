@@ -27,7 +27,7 @@ public class Deadline extends Task {
      * @return Deadline description and deadline.
      */
     public String getTaskDetails(){
-        DateFormat printDateTime = new SimpleDateFormat("dd MMMM yyyy HH:mma");
+        DateFormat printDateTime = new SimpleDateFormat("dd MMMM yyyy hh:mma");
         return ("[D][" + this.getStatusIcon() + "] " + this.taskDescription
                 + " (by: " + printDateTime.format(this.deadline) + ")");
     }

@@ -1,6 +1,5 @@
 package duke.storage;
 
-import duke.task.Task;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
@@ -31,7 +30,6 @@ public class Storage {
                 FileInputStream fis = new FileInputStream(FILE_PATH);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 taskList = ((TaskList) ois.readObject());
-                //taskList.refreshTotalTask();
                 ois.close();
                 fis.close();
                 return taskList;
